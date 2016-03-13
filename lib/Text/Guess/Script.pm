@@ -3,7 +3,7 @@ package Text::Guess::Script;
 use strict;
 use warnings;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 use Unicode::Normalize;
 
@@ -262,7 +262,7 @@ Text::Guess::Script - Guess script from text using ISO-15924 codes
 =head1 SYNOPSIS
 
   use Text::Guess::Script;
-  my $guessed_language = Text::Guess::Script->guess($text);
+  my $guessed_script = Text::Guess::Script->guess($text);
 
 
 =head1 DESCRIPTION
@@ -331,7 +331,7 @@ it under the same terms as Perl itself.
 
 =head1 SEE ALSO
 
-Text::Language::Guess
+Locale::Codes::Script
 
 =cut
 
