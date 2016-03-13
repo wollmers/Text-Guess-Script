@@ -12,7 +12,7 @@ Text::Guess::Script - Guess script from text using ISO-15924 codes
 # SYNOPSIS
 
     use Text::Guess::Script;
-    my $guessed_language = Text::Guess::Script->guess($text);
+    my $guessed_script = Text::Guess::Script->guess($text);
 
 # DESCRIPTION
 
@@ -68,4 +68,4 @@ it under the same terms as Perl itself.
 
 # SEE ALSO
 
-Text::Language::Guess
+Locale::Codes::Script
