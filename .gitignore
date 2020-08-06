@@ -17,6 +17,8 @@ nytprof.out
 nytprof/
 pm_to_blib
 
+/data
+
 *~
 *.bak
 ._*
