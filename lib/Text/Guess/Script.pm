@@ -3,7 +3,7 @@ package Text::Guess::Script;
 use strict;
 use warnings;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 use Unicode::Normalize;
 use Unicode::UCD qw(charscript prop_value_aliases);
