@@ -7,7 +7,6 @@ our $VERSION = '0.05';
 
 use Unicode::Normalize;
 use Unicode::UCD qw(charscript prop_value_aliases);
-use charnames ':full'; # ord($char)
 
 our @codes;
 
@@ -20,7 +19,9 @@ sub new {
 sub guess {
   my ($self, $text) = @_;
 
-  my $guesses = $self->guesses($text);
+  if ( $text eq '' ) { return ''; }
+
+  my $guesses = $self->_guesses($text);
 
   return $guesses->[0]->[0];
 }
@@ -28,43 +29,11 @@ sub guess {
 sub guesses {
   my ($self, $text) = @_;
 
-  my $text_NFC = NFC($text);
+  if ( $text eq '' ) { return []; }
 
-  my @tokens = $text_NFC =~ m/(.)/xmsg;
+  my $guesses = $self->_guesses($text);
 
-  my $chars = {};
-  for my $token (@tokens) {
-    $chars->{$token}++;
-  }
-
-  my $guesses = {};
-  my @other_codes = @codes;
-  my @seen_codes;
-
-  CHAR: for my $char (keys %$chars) {
-    for my $code (@seen_codes) {
-      if ($char =~ m/\p{$code}/xms) {
-        $guesses->{$code} += $chars->{$char};
-        next CHAR;
-      }
-    }
-    OTHER: for my $code (@other_codes) {
-      eval {local $SIG{'__DIE__'}; $char =~ m/\p{$code}/xms};
-      if ($@) { next OTHER }
-      if ($char =~ m/\p{$code}/xms) {
-        $guesses->{$code} += $chars->{$char};
-        push @seen_codes,$code;
-        next CHAR;
-      }
-    }
-  }
-
-  my $result = [
-  	map { [ $_, $guesses->{$_}/scalar(@tokens) ] }
-    sort { $guesses->{$b} <=> $guesses->{$a} }
-    keys(%$guesses)
-  ];
-  return $result;
+  return $guesses;
 }
 
 sub _guesses {
@@ -80,8 +49,8 @@ sub _guesses {
   }
 
   my $guesses = {};
-  my @other_codes = @codes;
-  my @seen_codes;
+  #my @other_codes = @codes;
+  #my @seen_codes;
 
   for my $char (keys %$chars) {
     my ($code, $name) = prop_value_aliases("Script",charscript(ord($char)));
@@ -98,192 +67,6 @@ sub _guesses {
 }
 
 
-BEGIN {
-@codes = qw(
-Adlm
-Afak
-Aghb
-Ahom
-Arab
-Aran
-Armi
-Armn
-Avst
-Bali
-Bamu
-Bass
-Batk
-Beng
-Bhks
-Blis
-Bopo
-Brah
-Brai
-Bugi
-Buhd
-Cakm
-Cans
-Cari
-Cham
-Cher
-Cirt
-Copt
-Cprt
-Cyrl
-Cyrs
-Deva
-Dsrt
-Dupl
-Egyd
-Egyh
-Egyp
-Elba
-Ethi
-Geok
-Geor
-Glag
-Goth
-Gran
-Grek
-Gujr
-Guru
-Hanb
-Hang
-Hani
-Hano
-Hans
-Hant
-Hatr
-Hebr
-Hira
-Hluw
-Hmng
-Hrkt
-Hung
-Inds
-Ital
-Jamo
-Java
-Jpan
-Jurc
-Kali
-Kana
-Khar
-Khmr
-Khoj
-Kitl
-Kits
-Knda
-Kore
-Kpel
-Kthi
-Lana
-Laoo
-Latf
-Latg
-Latn
-Leke
-Lepc
-Limb
-Lina
-Linb
-Lisu
-Loma
-Lyci
-Lydi
-Mahj
-Mand
-Mani
-Marc
-Maya
-Mend
-Merc
-Mero
-Mlym
-Modi
-Mong
-Moon
-Mroo
-Mtei
-Mult
-Mymr
-Narb
-Nbat
-Newa
-Nkgb
-Nkoo
-Nshu
-Ogam
-Olck
-Orkh
-Orya
-Osge
-Osma
-Palm
-Pauc
-Perm
-Phag
-Phli
-Phlp
-Phlv
-Phnx
-Piqd
-Plrd
-Prti
-Qaaa
-Qabx
-Rjng
-Roro
-Runr
-Samr
-Sara
-Sarb
-Saur
-Sgnw
-Shaw
-Shrd
-Sidd
-Sind
-Sinh
-Sora
-Sund
-Sylo
-Syrc
-Syre
-Syrj
-Syrn
-Tagb
-Takr
-Tale
-Talu
-Taml
-Tang
-Tavt
-Telu
-Teng
-Tfng
-Tglg
-Thaa
-Thai
-Tibt
-Tirh
-Ugar
-Vaii
-Visp
-Wara
-Wole
-Xpeo
-Xsux
-Yiii
-Zinh
-Zmth
-Zsye
-Zsym
-Zxxx
-Zyyy
-Zzzz
-);
-}
 
 1;
 
