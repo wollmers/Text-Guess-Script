@@ -1,6 +1,8 @@
 Revision history for Text::Guess::Script
 
 {{$NEXT}}
+
+0.06  2021-08-27 22:17:33 CEST
         - improved speed using Unicode::UCD
         - new method guesses
         - added tests
