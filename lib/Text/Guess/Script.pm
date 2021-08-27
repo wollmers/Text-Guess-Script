@@ -129,12 +129,9 @@ Text::Guess::Script->guess() call.
 
 =over 4
 
-
 =item guess($text)
 
 Returns the script code with the most characters.
-
-=back
 
 =item guesses($text)
 
