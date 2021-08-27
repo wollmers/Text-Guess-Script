@@ -90,13 +90,28 @@ Text::Guess::Script - Guess script from text using ISO-15924 codes
 =head1 SYNOPSIS
 
   use Text::Guess::Script;
-  my $guessed_script = Text::Guess::Script->guess($text);
+  print Text::Guess::Script->guess('Hello World'); # prints Latn
 
+  print Text::Guess::Script->guesses('Hello World')->[0]->[0]; # Latn
+  print Text::Guess::Script->guesses('Hello World')->[1]->[0]; # Zyyy
+
+  use Data::Dumper;
+  print Dumper(Text::Guess::Script->guesses('Hello World'));
+  $VAR1 = [
+          [
+            'Latn',
+            '0.909090909090909'
+          ],
+          [
+            'Zyyy',
+            '0.0909090909090909'
+          ]
+        ];
 
 =head1 DESCRIPTION
 
 Text::Guess::Script matches the characters in the text against the script property
-and returns the code of script with most characters.
+and returns the code of the script with most characters.
 
 =head2 CONSTRUCTOR
 
@@ -118,6 +133,18 @@ Text::Guess::Script->guess() call.
 =item guess($text)
 
 Returns the script code with the most characters.
+
+=back
+
+=item guesses($text)
+
+Returns an array reference with an array, sorted descending by relative frequency for
+each script. Each entry is a pair of script code and relative frequency like this:
+
+  $guesses = [
+    [ 'Latn', '0.909090909090909'  ],
+    [ 'Zyyy', '0.0909090909090909' ]
+  ];
 
 =back
 
@@ -150,7 +177,7 @@ Helmut Wollmersdorfer E<lt>helmut@wollmersdorfer.atE<gt>
 
 =head1 COPYRIGHT
 
-Copyright 2016-2020 Helmut Wollmersdorfer
+Copyright 2016-2021 Helmut Wollmersdorfer
 
 =head1 LICENSE
 
