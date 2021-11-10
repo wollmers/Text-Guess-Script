@@ -15,25 +15,30 @@ Text::Guess::Script - Guess script from text using ISO-15924 codes
     print Text::Guess::Script->guess('Hello World'); # prints Latn
 
     print Text::Guess::Script->guesses('Hello World')->[0]->[0]; # Latn
+    print Text::Guess::Script->guesses('Hello World')->[0]->[2]; # Latin
+
     print Text::Guess::Script->guesses('Hello World')->[1]->[0]; # Zyyy
+    print Text::Guess::Script->guesses('Hello World')->[1]->[2]; # Common
 
     use Data::Dumper;
     print Dumper(Text::Guess::Script->guesses('Hello World'));
     $VAR1 = [
             [
               'Latn',
-              '0.909090909090909'
+              '0.909090909090909',
+              'Latin'
             ],
             [
               'Zyyy',
-              '0.0909090909090909'
+              '0.0909090909090909',
+              'Common'
             ]
           ];
 
 # DESCRIPTION
 
-Text::Guess::Script matches the characters in the text against the script property
-and returns the code of the script with most characters.
+Text::Guess::Script gets the script property for each character in the text
+and returns the code of the script with the most characters.
 
 ## CONSTRUCTOR
 
@@ -52,11 +57,11 @@ and returns the code of the script with most characters.
 - guesses($text)
 
     Returns an array reference with an array, sorted descending by relative frequency for
-    each script. Each entry is a pair of script code and relative frequency like this:
+    each script. Each entry is a triple of script code, relative frequency and script name:
 
         $guesses = [
-          [ 'Latn', '0.909090909090909'  ],
-          [ 'Zyyy', '0.0909090909090909' ]
+          [ 'Latn', '0.909090909090909',  'Latin'  ],
+          [ 'Zyyy', '0.0909090909090909', 'Common' ],
         ];
 
 ## EXPORT
