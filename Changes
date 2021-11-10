@@ -1,6 +1,8 @@
 Revision history for Text::Guess::Script
 
 {{$NEXT}}
+
+0.07  2021-11-10 18:53:30 CET
         - added script name in result
         - improved documentation       
 
